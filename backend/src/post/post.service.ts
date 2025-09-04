@@ -1,8 +1,8 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Auth } from "src/entities/auth";
-import { MicroPost } from "src/entities/microposts";
 import { Equal, MoreThan, Repository } from "typeorm";
+import { Auth } from "../entities/auth";
+import { MicroPost } from "../entities/microposts";
 
 @Injectable()
 export class PostService {

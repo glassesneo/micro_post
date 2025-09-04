@@ -1,18 +1,30 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { UserController } from './user.controller';
+import { Test, TestingModule } from "@nestjs/testing";
+import { UserController } from "./user.controller";
+import { UserService } from "./user.service";
 
-describe('UserController', () => {
-  let controller: UserController;
+describe("UserController", () => {
+	let service: UserService;
+	// let controller: UserController;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [UserController],
-    }).compile();
+	beforeEach(async () => {
+		const module: TestingModule = await Test.createTestingModule({
+			providers: [
+				{
+					provide: UserService,
+					useValue: {
+						getUser: jest.fn().mockReturnValue({}),
+					},
+				},
+			],
+			controllers: [UserController],
+		}).compile();
 
-    controller = module.get<UserController>(UserController);
-  });
+		service = module.get<UserService>(UserService);
+	});
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
+	it("should be defined", async () => {
+		const controller = new UserController(service);
+		await controller.getUser(1, "xxx-xxx-xxx-xxx");
+		expect(service.getUser).toHaveBeenCalledTimes(1);
+	});
 });

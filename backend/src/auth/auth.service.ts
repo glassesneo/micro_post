@@ -1,9 +1,9 @@
 import * as crypto from "node:crypto";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Auth } from "src/entities/auth";
-import { User } from "src/entities/user.entity";
 import { Equal, Repository } from "typeorm";
+import { Auth } from "../entities/auth";
+import { User } from "../entities/user.entity";
 
 @Injectable()
 export class AuthService {
