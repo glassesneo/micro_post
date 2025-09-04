@@ -31,7 +31,7 @@ export class UserService {
 
 	async getUser(token: string, id: number) {
 		const now = new Date();
-		const auth = this.authRepository.findOne({
+		const auth = await this.authRepository.findOne({
 			where: {
 				token: Equal(token),
 				expire_at: MoreThan(now),
