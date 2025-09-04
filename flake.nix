@@ -15,33 +15,59 @@
     devShell = forAllSystems (
       system: pkgs:
         pkgs.mkShell {
-          packages = [
-            pkgs.typescript-language-server
-            pkgs.nodejs
-            pkgs.pnpm
-            pkgs.biome
-            # pkgs.nodePackages.prisma
-            # pkgs.prisma-engines
-            # pkgs.sqlite
+          packages = with pkgs; [
+            typescript-language-server
+            nodejs
+            pnpm
+            biome
+            postgresql
           ];
           shellHook = ''
-            # SQLite database setup
-            # export DATABASE_DIR="$PWD/.nix-data"
-            # export DATABASE_FILE="$DATABASE_DIR/dev.db"
-            # export DATABASE_URL="file:$DATABASE_FILE"
+            # PostgreSQL database setup
+            export PGDATA="$PWD/.nix-data/postgres"
+            export PGHOST="localhost"
+            export PGPORT="5432"
+            export PGDATABASE="micropost_dev"
+            export PGUSER="$(whoami)"
+            export DATABASE_URL="postgresql://$PGUSER@$PGHOST:$PGPORT/$PGDATABASE"
+            export PGPASSWORD="development"
 
-            # Create data directory
-            # mkdir -p "$DATABASE_DIR"
+            # Create PostgreSQL data directory
+            mkdir -p "$PGDATA"
 
-            # Create empty database file if it doesn't exist
-            # if [ ! -f "$DATABASE_FILE" ]; then
-            #   touch "$DATABASE_FILE"
-            # fi
+            # Initialize PostgreSQL database if not exists
+            if [ ! -f "$PGDATA/PG_VERSION" ]; then
+              echo "Initializing PostgreSQL database..."
+              initdb -D "$PGDATA" --auth-local=md5 --auth-host=md5 --no-locale --encoding=UTF8
+            fi
 
-            # Generate Prisma client if schema exists
-            # if [ -f "prisma/schema.prisma" ]; then
-            #   pnpm prisma generate 2>/dev/null || true
-            # fi
+            # Start PostgreSQL server
+            if ! pgrep -x postgres > /dev/null; then
+              echo "Starting PostgreSQL server..."
+              pg_ctl -D "$PGDATA" -l "$PGDATA/postgres.log" start
+              sleep 2
+
+              # Set up user and password
+              psql postgres -c "CREATE USER $PGUSER WITH PASSWORD '$PGPASSWORD';" 2>/dev/null || \
+              psql postgres -c "ALTER USER $PGUSER WITH PASSWORD '$PGPASSWORD';" 2>/dev/null || true
+
+              # Create database if it doesn't exist
+              if ! psql postgres -lqt | cut -d \| -f 1 | grep -qw "$PGDATABASE" 2>/dev/null; then
+                echo "Creating database: $PGDATABASE"
+                createdb -O "$PGUSER" "$PGDATABASE" || echo "Database may already exist"
+              fi
+            fi
+
+            # Create .env
+            cat > ./backend/.env << EOF
+            DB_HOST=$PGHOST
+            DB_USER=$PGUSER
+            DB_PASS=$PGPASSWORD
+            DB_NAME=$PGDATABASE
+            EOF
+
+            echo "PostgreSQL is ready!"
+            echo "To stop PostgreSQL: pg_ctl -D $PGDATA stop"
           '';
         }
     );
