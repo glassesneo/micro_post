@@ -49,7 +49,7 @@ export class PostService {
 
 		const qb = this.microPostsRepository
 			.createQueryBuilder("micro_post")
-			.leftJoinAndSelect("user", "user", "user.id=micro_post.user_id")
+			.leftJoinAndSelect("users", "user", "user.id=micro_post.user_id")
 			.select([
 				"micro_post.id as id",
 				"user.name as user_name",

@@ -3,17 +3,19 @@ import type { PostType } from "../contexts/PostListContext";
 
 export type PostData = Omit<PostType, "created_at"> & { created_at: string };
 
+const apiUrl: string = import.meta.env.VITE_MICROPOST_API_URL;
+
 export const post = async (user_id: string, token: string, msg: string) => {
 	const data = {
 		message: msg,
 	};
-	const url = `/api/post?user_id=${user_id}&token=${token}`;
+	const url = `${apiUrl}/post?user_id=${user_id}&token=${token}`;
 	const response = await axios.post(url, data);
 	console.log(response);
 };
 
 export const getList = async (token: string) => {
-	const url = `/api/post?token=${token}&records=10`;
+	const url = `${apiUrl}/post?token=${token}&records=10`;
 	const response = await axios.get(url);
 	return response.data;
 };
