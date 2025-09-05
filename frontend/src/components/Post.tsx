@@ -1,5 +1,6 @@
 import { Fragment, type ReactNode } from "react";
 import type { PostType } from "../contexts/PostListContext";
+import { post_styles } from "./styles.css";
 
 const getDateStr = (dateObj: Date) => {
 	const year = dateObj.getFullYear();
@@ -11,8 +12,7 @@ const getDateStr = (dateObj: Date) => {
 	return `${year}年${month}月${date}日 ${hour}時${min}分${sec}秒`;
 };
 
-export const Post = (props: any) => {
-	const { post }: { post: PostType } = props;
+export const Post = ({ post }: { post: PostType }) => {
 	const getLines = (src: string): ReactNode => {
 		return src.split("\n").map((line, index) => {
 			return (
@@ -26,10 +26,12 @@ export const Post = (props: any) => {
 	};
 
 	return (
-		<div>
-			<div>{getDateStr(post.created_at)}</div>
-			<div>{post.user_name}</div>
-			<div>{getLines(post.content)}</div>
+		<div className={post_styles.item}>
+			<div className={post_styles.metaRow}>
+				<span className={post_styles.user}>{post.user_name}</span>
+				<span>{getDateStr(post.created_at)}</span>
+			</div>
+			<div className={post_styles.content}>{getLines(post.content)}</div>
 		</div>
 	);
 };

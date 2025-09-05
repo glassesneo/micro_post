@@ -2,7 +2,7 @@ import { use, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUser } from "../api/User";
 import { NotLoginState, UserContext } from "../contexts/UserContext";
-import { styles } from "./styles.css";
+import { common_styles, form_styles, header_styles } from "./styles.css";
 
 export const Header = () => {
 	const navigate = useNavigate();
@@ -27,10 +27,10 @@ export const Header = () => {
 	}, []);
 
 	return (
-		<div className={styles.header}>
-			<span>MicroPost</span>
-			<span>{userName}</span>
-			<button type="button" onClick={logout}>
+		<div className={common_styles.header}>
+			<span className={header_styles.title}>MicroPost</span>
+			<span className={header_styles.user}>{userName}</span>
+			<button type="button" className={form_styles.button} onClick={logout}>
 				Logout
 			</button>
 		</div>

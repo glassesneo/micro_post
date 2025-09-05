@@ -2,33 +2,40 @@ import { use, useState } from "react";
 import { getPostList, post } from "../api/Post";
 import { PostListContext } from "../contexts/PostListContext";
 import { UserContext } from "../contexts/UserContext";
-import { styles } from "./styles.css";
+import { common_styles, form_styles, sidebar_styles } from "./styles.css";
 
 export const SideBar = () => {
-	const [messsage, setMessage] = useState("");
+	const [message, setMessage] = useState("");
 
 	const { userInfo } = use(UserContext);
 	const { setPostList } = use(PostListContext);
 
 	const onSendClick = async () => {
-		await post(String(userInfo.id), userInfo.token, messsage);
+		await post(String(userInfo.id), userInfo.token, message);
 		const currentPostList = await getPostList(userInfo.token);
 		setPostList(currentPostList);
 	};
 
 	return (
-		<div className={styles.sidebar}>
-			<div>hoge</div>
-			<div>hoge@example.com</div>
-			<div>
+		<div className={common_styles.sidebar}>
+			<div className={sidebar_styles.section}>
+				<div className={sidebar_styles.profile}>User: {userInfo.id}</div>
+			</div>
+			<div className={sidebar_styles.section}>
 				<textarea
 					rows={4}
-					value={messsage}
+					className={form_styles.textarea}
+					value={message}
 					onChange={(e) => setMessage(e.target.value)}
+					placeholder="いまどうしてる？"
 				/>
 			</div>
 			<div>
-				<button type="submit" onClick={onSendClick}>
+				<button
+					type="submit"
+					className={form_styles.button}
+					onClick={onSendClick}
+				>
 					Send
 				</button>
 			</div>

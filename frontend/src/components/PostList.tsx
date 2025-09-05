@@ -3,6 +3,7 @@ import { getPostList } from "../api/Post";
 import { PostListContext } from "../contexts/PostListContext";
 import { UserContext } from "../contexts/UserContext";
 import { Post } from "./Post";
+import { post_styles } from "./styles.css";
 
 export const PostList = () => {
 	const { postList, setPostList } = use(PostListContext);
@@ -15,8 +16,7 @@ export const PostList = () => {
 	}
 
 	return (
-		<div>
-			<p>PostList</p>
+		<div className={post_styles.list}>
 			{postList.map((p) => (
 				<Post key={p.id} post={p} />
 			))}

@@ -2,6 +2,7 @@ import { use, useId, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signIn } from "../api/Auth";
 import { UserContext } from "../contexts/UserContext";
+import { sign_in_styles } from "./styles.css";
 
 export const SignIn = () => {
 	const userIdInputId = useId();
@@ -26,29 +27,39 @@ export const SignIn = () => {
 		}
 	};
 	return (
-		<div>
-			<div>
-				<label htmlFor={userIdInputId}>ID</label>
+		<div className={sign_in_styles.frame}>
+			<div className={sign_in_styles.row}>
+				<label htmlFor={userIdInputId} className={sign_in_styles.label}>
+					ID
+				</label>
 				<input
 					id={userIdInputId}
+					className={sign_in_styles.input}
 					type="text"
 					value={userId}
 					onChange={(e) => setUserId(e.target.value)}
 				/>
 			</div>
 
-			<div>
-				<label htmlFor={passwordInputId}>Password</label>
+			<div className={sign_in_styles.row}>
+				<label htmlFor={passwordInputId} className={sign_in_styles.label}>
+					Password
+				</label>
 				<input
 					id={passwordInputId}
-					type="text"
+					className={sign_in_styles.input}
+					type="password"
 					value={password}
 					onChange={(e) => setPassword(e.target.value)}
 				/>
 			</div>
 
-			<div>
-				<button type="button" onClick={onSignInClick}>
+			<div className={sign_in_styles.row}>
+				<button
+					type="button"
+					className={sign_in_styles.button}
+					onClick={onSignInClick}
+				>
 					Login
 				</button>
 			</div>
