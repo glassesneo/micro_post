@@ -1,6 +1,7 @@
-import { useId, useState } from "react";
+import { use, useId, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signIn } from "../api/Auth";
+import { UserContext } from "../contexts/UserContext";
 
 export const SignIn = () => {
 	const userIdInputId = useId();
@@ -9,12 +10,20 @@ export const SignIn = () => {
 	const [userId, setUserId] = useState("");
 	const [password, setPassword] = useState("");
 
+	const { setUserInfo } = use(UserContext);
+
 	const navigate = useNavigate();
 
-	const onSignInClick = () => {
+	const onSignInClick = async () => {
 		console.log("onSignInClick");
-		signIn(userId, password);
-		navigate("/main");
+		const result = await signIn(userId, password);
+		if (result?.token) {
+			setUserInfo({
+				id: result.user_id,
+				token: result.token,
+			});
+			navigate("/main");
+		}
 	};
 	return (
 		<div>

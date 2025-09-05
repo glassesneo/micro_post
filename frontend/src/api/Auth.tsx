@@ -5,4 +5,5 @@ export const signIn = async (user_id: string, password: string) => {
 	console.log(url);
 	const response = await axios.get(url);
 	console.log(response);
+	return response.data;
 };
