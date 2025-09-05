@@ -8,3 +8,9 @@ export const post = async (user_id: string, token: string, msg: string) => {
 	const response = await axios.post(url, data);
 	console.log(response);
 };
+
+export const getList = async (token: string) => {
+	const url = `/api/post?token=${token}&records=10`;
+	const response = await axios.get(url);
+	return response.data;
+};
