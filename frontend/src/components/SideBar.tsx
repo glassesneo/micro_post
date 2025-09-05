@@ -11,7 +11,7 @@ export const SideBar = () => {
 	const { setPostList } = use(PostListContext);
 
 	const onSendClick = async () => {
-		post(String(userInfo.id), userInfo.token, messsage);
+		await post(String(userInfo.id), userInfo.token, messsage);
 		const currentPostList = await getPostList(userInfo.token);
 		setPostList(currentPostList);
 	};
