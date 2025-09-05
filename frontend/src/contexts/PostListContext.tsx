@@ -13,4 +13,3 @@ export const PostListContext = createContext(
 		setPostList: Dispatch<SetStateAction<PostType[]>>;
 	},
 );
-

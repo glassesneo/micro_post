@@ -1,5 +1,6 @@
 import { use, useState } from "react";
-import { post } from "../api/Post";
+import { getPostList, post } from "../api/Post";
+import { PostListContext } from "../contexts/PostListContext";
 import { UserContext } from "../contexts/UserContext";
 import { styles } from "./styles.css";
 
@@ -7,9 +8,12 @@ export const SideBar = () => {
 	const [messsage, setMessage] = useState("");
 
 	const { userInfo } = use(UserContext);
+	const { setPostList } = use(PostListContext);
 
-	const onSendClick = () => {
+	const onSendClick = async () => {
 		post(String(userInfo.id), userInfo.token, messsage);
+		const currentPostList = await getPostList(userInfo.token);
+		setPostList(currentPostList);
 	};
 
 	return (
