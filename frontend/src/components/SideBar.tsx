@@ -14,6 +14,7 @@ export const SideBar = () => {
 		await post(String(userInfo.id), userInfo.token, message);
 		const currentPostList = await getPostList(userInfo.token);
 		setPostList(currentPostList);
+		setMessage("");
 	};
 
 	return (
