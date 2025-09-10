@@ -7,7 +7,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
 	plugins: [react(), vanillaExtractPlugin()],
 	test: {
-		environment: "jsdom",
+		// environment: "jsdom",
 		setupFiles: "./vitest.setup.ts",
 	},
 	server: {
