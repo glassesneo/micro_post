@@ -21,6 +21,7 @@
     "typeorm": "npx typeorm-ts-node-commonjs -d ./src/app.datasource.ts"
   },
   "dependencies": {
+    "@micro_post/shared": "workspace:*",
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
