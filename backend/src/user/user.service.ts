@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { UserResponseDto } from "@micro_post/shared";
 import {
 	ForbiddenException,
 	Injectable,
@@ -8,6 +9,18 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Equal, MoreThan, Repository } from "typeorm";
 import { Auth } from "../entities/auth";
 import { User } from "../entities/user.entity";
+
+const toUserResponseDto = (user: User): UserResponseDto => {
+	return {
+		name: user.name,
+		id: user.id,
+		email: user.email,
+		// biome-ignore lint: dates are filled in DB
+		created_at: user.created_at!.toISOString(),
+		// biome-ignore lint: dates are filled in DB
+		updated_at: user.updated_at!.toISOString(),
+	};
+};
 
 @Injectable()
 export class UserService {
@@ -52,6 +65,6 @@ export class UserService {
 			throw new NotFoundException();
 		}
 
-		return user;
+		return toUserResponseDto(user);
 	}
 }

@@ -1,8 +1,12 @@
+import type { UserResponseDto } from "@micro_post/shared";
 import axios from "axios";
 
 const apiUrl: string = import.meta.env.VITE_MICROPOST_API_URL;
 
-export const getUser = async (user_id: number, token: string) => {
+export const getUser = async (
+	user_id: number,
+	token: string,
+): Promise<UserResponseDto> => {
 	const url = `${apiUrl}/user/${user_id}?token=${token}`;
 	const response = await axios.get(url);
 	return response.data;

@@ -7,6 +7,7 @@ import {
 	type UserInfo,
 } from "./contexts/UserContext";
 import { Main } from "./pages/Main";
+import { Profile } from "./pages/Profile";
 
 function App() {
 	const [userInfo, setUserInfo] = useState<UserInfo>(NotLoginState);
@@ -17,6 +18,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<SignIn />} />
 					<Route path="/main" element={<Main />} />
+					<Route path="/profile/:slug" Component={Profile} />
 				</Routes>
 			</UserContext>
 		</div>

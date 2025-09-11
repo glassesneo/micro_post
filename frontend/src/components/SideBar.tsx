@@ -1,4 +1,5 @@
 import { use, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getPostList, post } from "../api/Post";
 import { PostListContext } from "../contexts/PostListContext";
 import { UserContext } from "../contexts/UserContext";
@@ -9,6 +10,8 @@ export const SideBar = () => {
 
 	const { userInfo } = use(UserContext);
 	const { setPostList } = use(PostListContext);
+
+	const navigate = useNavigate();
 
 	const onSendClick = async () => {
 		await post(String(userInfo.id), userInfo.token, message);
@@ -21,6 +24,12 @@ export const SideBar = () => {
 		<div className={common_styles.sidebar}>
 			<div className={sidebar_styles.section}>
 				<div className={sidebar_styles.profile}>User: {userInfo.id}</div>
+				<button
+					type="button"
+					onClick={() => navigate(`/profile/${userInfo.id}`)}
+				>
+					View profile
+				</button>
 			</div>
 			<div className={sidebar_styles.section}>
 				<textarea
