@@ -71,4 +71,48 @@ export class PostService {
 		console.log(records);
 		return records;
 	}
+
+	async getListByUser(
+		token: string,
+		id: number,
+		start: number = 0,
+		number_of_records: number,
+	) {
+		const now = new Date();
+		const auth = await this.authRepository.findOne({
+			where: {
+				token: Equal(token),
+				expire_at: MoreThan(now),
+			},
+		});
+
+		if (!auth) {
+			throw new ForbiddenException();
+		}
+
+		const qb = this.microPostsRepository
+			.createQueryBuilder("micro_post")
+			.leftJoinAndSelect("users", "user", "user.id=micro_post.user_id")
+			.select([
+				"micro_post.id as id",
+				"user.name as user_name",
+				"micro_post.content as content",
+				"micro_post.created_at as created_at",
+			])
+			.where("micro_post.user_id = :id", { id })
+			.orderBy("micro_post.created_at", "DESC")
+			.offset(start)
+			.limit(number_of_records);
+
+		type ResultType = {
+			id: number;
+			content: string;
+			user_name: string;
+			created_at: Date;
+		};
+
+		const records = await qb.getRawMany<ResultType>();
+		console.log(records);
+		return records;
+	}
 }
