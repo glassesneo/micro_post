@@ -4,7 +4,9 @@
   "scripts": {
     "install:all": "pnpm install",
     "dev:frontend": "pnpm --filter frontend dev",
-    "dev:backend": "pnpm --filter backend start:dev"
+    "dev:backend": "pnpm --filter backend start:dev",
+    "build": "turbo run build",
+    "test": "turbo run test"
   },
   "workspaces": [
     "backend",

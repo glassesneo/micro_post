@@ -6,35 +6,36 @@ on:
     branches: [main, develop]
 
 jobs:
-  test:
-    runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        node-version: [20]
+  build:
+    name: Build and Test
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    # To use Remote Caching, uncomment the next lines and follow the steps below.
+    # env:
+    #  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+    #  TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+ 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+ 
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+ 
+      - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
-          cache-dependency-path: pnpm-lock.yaml
-
+          node-version: 20
+          cache: 'pnpm'
+ 
       - name: Install dependencies
         run: pnpm install
-
-      - name: Run frontend tests
-        run: pnpm --filter frontend test
-
-      - name: Run backend tests  
-        run: pnpm --filter backend test
-
-      - name: Build frontend
-        run: pnpm --filter frontend build
-
-      - name: Build backend
-        run: pnpm --filter backend build
+ 
+      - name: Build
+        run: pnpm build
+ 
+      - name: Test
+        run: pnpm test
