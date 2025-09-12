@@ -16,7 +16,6 @@ export const ProfileLayout = () => {
 		name: "",
 		postList: [],
 	});
-	// const [userName, setUserName] = useState("");
 	const { userInfo } = use(UserContext);
 
 	// biome-ignore lint: TODO
@@ -25,7 +24,6 @@ export const ProfileLayout = () => {
 			const user = await getUser(userInfo.id, userInfo.token);
 			const postList = await getPostListByUser(userInfo.token, userInfo.id);
 			setProfile({ name: user.name, postList: postList });
-			console.log(postList);
 		};
 
 		myGetUser();

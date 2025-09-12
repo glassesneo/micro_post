@@ -16,7 +16,6 @@ export const SignIn = () => {
 	const navigate = useNavigate();
 
 	const onSignInClick = async () => {
-		console.log("onSignInClick");
 		const result = await signIn(userId, password);
 		if (result?.token) {
 			setUserInfo({

@@ -20,7 +20,6 @@ const getList = async (token: string) => {
 
 export const getPostList = async (token: string) => {
 	const posts: PostResponseDto[] = await getList(token);
-	console.log(posts);
 	if (posts) {
 		const currentPostList = posts.map((p): PostType => {
 			return { ...p, created_at: new Date(p.created_at) };
