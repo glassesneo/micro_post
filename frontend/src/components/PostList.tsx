@@ -12,6 +12,7 @@ export const PostList = () => {
 	if (!postList.length) {
 		throw getPostList(userInfo.token).then((data) => {
 			setPostList(data);
+			console.log(data);
 		});
 	}
 

@@ -1,7 +1,8 @@
+import type { PostType } from "@micro_post/shared";
 import { use, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { MainLayout } from "../components/MainLayout";
-import { PostListContext, type PostType } from "../contexts/PostListContext";
+import { PostListContext } from "../contexts/PostListContext";
 import { UserContext } from "../contexts/UserContext";
 
 export const Main = () => {

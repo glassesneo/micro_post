@@ -1,34 +1,31 @@
+import type { PostType } from "@micro_post/shared";
 import { use, useEffect, useState } from "react";
-import { getUser } from "../api/User";
-import type { PostType } from "../contexts/PostListContext";
+import { getPostListByUser, getUser } from "../api/User";
 import { UserContext } from "../contexts/UserContext";
 import { Header } from "./Header";
+import { Post } from "./Post";
+import { post_styles } from "./styles.css";
 
 type UserProfile = {
 	name: string;
-	posts: PostType[];
+	postList: PostType[];
 };
 
 export const ProfileLayout = () => {
-	const [profile, setProfile] = useState<UserProfile>({} as UserProfile);
+	const [profile, setProfile] = useState<UserProfile>({
+		name: "",
+		postList: [],
+	});
 	// const [userName, setUserName] = useState("");
 	const { userInfo } = use(UserContext);
-
-	// if (!userName.length) {
-	// throw getUser(userInfo.id, userInfo.token).then((data) => {
-	// if (!data) {
-	// console.log("No user data");
-	// }
-	// console.log(`Name: ${data.name}`);
-	// setUserName(data.name);
-	// });
-	// }
 
 	// biome-ignore lint: TODO
 	useEffect(() => {
 		const myGetUser = async () => {
 			const user = await getUser(userInfo.id, userInfo.token);
-			setProfile({ name: user.name, posts: [] });
+			const postList = await getPostListByUser(userInfo.token, userInfo.id);
+			setProfile({ name: user.name, postList: postList });
+			console.log(postList);
 		};
 
 		myGetUser();
@@ -39,6 +36,13 @@ export const ProfileLayout = () => {
 			<Header />
 			<div>
 				<h2>{profile.name}'s Profile</h2>
+				<div className={post_styles.list}>
+					{profile.postList.length ? (
+						profile.postList.map((p) => <Post key={p.id} post={p} />)
+					) : (
+						<h2>No post available</h2>
+					)}
+				</div>
 			</div>
 		</>
 	);

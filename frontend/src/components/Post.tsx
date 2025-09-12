@@ -1,5 +1,5 @@
+import type { PostType } from "@micro_post/shared";
 import { Fragment, type ReactNode } from "react";
-import type { PostType } from "../contexts/PostListContext";
 import { getDateStr } from "../utils/date";
 import { post_styles } from "./styles.css";
 

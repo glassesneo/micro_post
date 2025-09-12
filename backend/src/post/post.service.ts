@@ -1,3 +1,4 @@
+import { PostType } from "@micro_post/shared";
 import { ForbiddenException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Equal, MoreThan, Repository } from "typeorm";
@@ -60,14 +61,7 @@ export class PostService {
 			.offset(start)
 			.limit(number_of_records);
 
-		type ResultType = {
-			id: number;
-			content: string;
-			user_name: string;
-			created_at: Date;
-		};
-
-		const records = await qb.getRawMany<ResultType>();
+		const records = await qb.getRawMany<PostType>();
 		console.log(records);
 		return records;
 	}
@@ -104,14 +98,7 @@ export class PostService {
 			.offset(start)
 			.limit(number_of_records);
 
-		type ResultType = {
-			id: number;
-			content: string;
-			user_name: string;
-			created_at: Date;
-		};
-
-		const records = await qb.getRawMany<ResultType>();
+		const records = await qb.getRawMany<PostType>();
 		console.log(records);
 		return records;
 	}
