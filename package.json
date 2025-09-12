@@ -6,8 +6,14 @@
     "dev:frontend": "pnpm --filter frontend dev",
     "dev:backend": "pnpm --filter backend start:dev"
   },
-  "workspaces": ["backend", "frontend", "shared"],
+  "workspaces": [
+    "backend",
+    "frontend",
+    "shared"
+  ],
   "devDependencies": {
+    "turbo": "^2.5.6",
     "typescript": "5.8.3"
-  }
+  },
+  "packageManager": "pnpm@10.15.0"
 }

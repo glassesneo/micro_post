@@ -10,6 +10,7 @@ import { UserModule } from "./user/user.module";
 	imports: [
 		TypeOrmModule.forRoot({
 			type: "postgres",
+			url: process.env.DATABASE_URL,
 			host: process.env.DB_HOST,
 			username: process.env.DB_USER,
 			password: process.env.DB_PASS,

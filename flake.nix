@@ -19,6 +19,7 @@
             typescript-language-server
             nodejs
             pnpm
+            turbo
             biome
             postgresql
           ];
