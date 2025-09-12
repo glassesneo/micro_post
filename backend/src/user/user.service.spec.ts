@@ -69,10 +69,9 @@ describe("UserService", () => {
 		expect(res).toEqual({
 			id: 1,
 			name: "alice",
-			hash: "hash",
 			email: "a@example.com",
-			created_at: expect.any(Date),
-			updated_at: expect.any(Date),
+			created_at: expect.any(String),
+			updated_at: expect.any(String),
 		});
 	});
 });
