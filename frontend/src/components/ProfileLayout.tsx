@@ -1,21 +1,18 @@
-import type { PostType } from "@micro_post/shared";
-import { use, useEffect, useState } from "react";
+import { use, useEffect } from "react";
 import { getPostListByUser, getUser } from "../api/User";
+import { ProfileContext } from "../contexts/ProfileContext";
 import { UserContext } from "../contexts/UserContext";
 import { Header } from "./Header";
 import { Post } from "./Post";
+import { ProfileModal } from "./ProfileModal";
 import { post_styles } from "./styles.css";
 
-type UserProfile = {
-	name: string;
-	postList: PostType[];
-};
-
 export const ProfileLayout = () => {
-	const [profile, setProfile] = useState<UserProfile>({
-		name: "",
-		postList: [],
-	});
+	// const [profile, setProfile] = useState<Profile>({
+	// name: "",
+	// postList: [],
+	// });
+	const { profile, setProfile } = use(ProfileContext);
 	const { userInfo } = use(UserContext);
 
 	// biome-ignore lint: TODO
@@ -34,6 +31,10 @@ export const ProfileLayout = () => {
 			<Header />
 			<div>
 				<h2>{profile.name}'s Profile</h2>
+				<ProfileModal
+					buttonTitle="プロフィールを編集"
+					userName={profile.name}
+				/>
 				<div className={post_styles.list}>
 					{profile.postList.length ? (
 						profile.postList.map((p) => <Post key={p.id} post={p} />)
