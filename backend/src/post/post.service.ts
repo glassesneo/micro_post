@@ -1,8 +1,7 @@
 import { PostType } from "@micro_post/shared";
-import { ForbiddenException, Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Equal, MoreThan, Repository } from "typeorm";
-import { Auth } from "../entities/auth";
+import { Repository } from "typeorm";
 import { MicroPost } from "../entities/microposts";
 
 @Injectable()
@@ -10,44 +9,18 @@ export class PostService {
 	constructor(
 		@InjectRepository(MicroPost)
 		private microPostsRepository: Repository<MicroPost>,
-		@InjectRepository(Auth)
-		private authRepository: Repository<Auth>,
 	) {}
 
-	async createPost(message: string, token: string) {
-		const now = new Date();
-		const auth = await this.authRepository.findOne({
-			where: {
-				token: Equal(token),
-				expire_at: MoreThan(now),
-			},
-		});
-
-		if (!auth) {
-			throw new ForbiddenException();
-		}
-
+	async createPost(message: string, user_id: number) {
 		const record = {
-			user_id: auth.user_id,
+			user_id: user_id,
 			content: message,
 		};
 
 		await this.microPostsRepository.save(record);
 	}
 
-	async getList(token: string, start: number = 0, number_of_records: number) {
-		const now = new Date();
-		const auth = await this.authRepository.findOne({
-			where: {
-				token: Equal(token),
-				expire_at: MoreThan(now),
-			},
-		});
-
-		if (!auth) {
-			throw new ForbiddenException();
-		}
-
+	async getList(start: number = 0, number_of_records: number) {
 		const qb = this.microPostsRepository
 			.createQueryBuilder("micro_post")
 			.leftJoinAndSelect("users", "user", "user.id=micro_post.user_id")
@@ -67,23 +40,10 @@ export class PostService {
 	}
 
 	async getListByUser(
-		token: string,
 		id: number,
 		start: number = 0,
 		number_of_records: number,
 	) {
-		const now = new Date();
-		const auth = await this.authRepository.findOne({
-			where: {
-				token: Equal(token),
-				expire_at: MoreThan(now),
-			},
-		});
-
-		if (!auth) {
-			throw new ForbiddenException();
-		}
-
 		const qb = this.microPostsRepository
 			.createQueryBuilder("micro_post")
 			.leftJoinAndSelect("users", "user", "user.id=micro_post.user_id")

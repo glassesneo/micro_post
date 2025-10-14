@@ -17,10 +17,10 @@ export const SignIn = () => {
 
 	const onSignInClick = async () => {
 		const result = await signIn(userId, password);
-		if (result?.token) {
+		if (result?.access_token) {
 			setUserInfo({
 				id: result.user_id,
-				token: result.token,
+				accessToken: result.access_token,
 			});
 			navigate("/main");
 		}

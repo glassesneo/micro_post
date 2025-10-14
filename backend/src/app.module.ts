@@ -28,7 +28,7 @@ export interface EnvironmentVariables {
 					password: config.get("DB_PASS"),
 					database: config.get("DB_NAME"),
 					autoLoadEntities: true,
-					synchronize: false,
+					synchronize: true,
 					url: config.get("DATABASE_URL"),
 				};
 			},

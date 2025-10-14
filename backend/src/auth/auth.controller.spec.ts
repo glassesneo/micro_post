@@ -23,7 +23,11 @@ describe("AuthController", () => {
 
 	it("should call service.getAuth", async () => {
 		const controller = new AuthController(service);
-		await controller.getAuth("user", "pass");
-		expect(service.getAuth).toHaveBeenCalledTimes(1);
+		await controller.signup({
+			name: "user",
+			email: "sample@example.com",
+			password: "pass",
+		});
+		expect(service.register).toHaveBeenCalledTimes(1);
 	});
 });

@@ -14,8 +14,8 @@ export const SideBar = () => {
 	const navigate = useNavigate();
 
 	const onSendClick = async () => {
-		await post(String(userInfo.id), userInfo.token, message);
-		const currentPostList = await getPostList(userInfo.token);
+		await post(userInfo.accessToken, message);
+		const currentPostList = await getPostList(userInfo.accessToken);
 		setPostList(currentPostList);
 		setMessage("");
 	};

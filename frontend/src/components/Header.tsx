@@ -18,7 +18,7 @@ export const Header = () => {
 	// biome-ignore lint: TODO
 	useEffect(() => {
 		const myGetUser = async () => {
-			const user = await getUser(userInfo.id, userInfo.token);
+			const user = await getUser(userInfo.id, userInfo.accessToken);
 
 			setUserName(user.name);
 		};

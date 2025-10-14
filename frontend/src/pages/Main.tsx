@@ -8,7 +8,7 @@ import { UserContext } from "../contexts/UserContext";
 export const Main = () => {
 	const [postList, setPostList] = useState<PostType[]>([]);
 	const { userInfo } = use(UserContext);
-	const loggedIn = userInfo.token !== "";
+	const loggedIn = userInfo.accessToken !== "";
 
 	return (
 		<PostListContext value={{ postList, setPostList }}>

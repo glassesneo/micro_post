@@ -3,12 +3,16 @@ import axios from "axios";
 
 const apiUrl: string = import.meta.env.VITE_MICROPOST_API_URL;
 
-export const post = async (user_id: string, token: string, msg: string) => {
+export const post = async (token: string, msg: string) => {
 	const data = {
 		message: msg,
 	};
-	const url = `${apiUrl}/post?user_id=${user_id}&token=${token}`;
-	const response = await axios.post(url, data);
+	const url = `${apiUrl}/post`;
+	const response = await axios.post(url, data, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
 	console.log(response);
 };
 

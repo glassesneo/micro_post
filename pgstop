@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+if [ -f "$PGDATA/watcher.pid" ]; then
+  kill $(cat "$PGDATA/watcher.pid") 2>/dev/null || true
+  rm -f "$PGDATA/watcher.pid"
+fi
+pg_ctl -D "$PGDATA" stop -m fast
+echo "PostgreSQL stopped!"

@@ -1,33 +1,43 @@
-import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Get,
+	Param,
+	Post,
+	Query,
+	UseGuards,
+} from "@nestjs/common";
+import { CurrentUser } from "src/auth/decorators/current-user.decorator";
+import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
+import { User } from "src/entities/user.entity";
 import { PostService } from "./post.service";
 
 @Controller("post")
 export class PostController {
 	constructor(private readonly postService: PostService) {}
+	@UseGuards(JwtAuthGuard)
 	@Post()
 	async createPost(
 		@Body("message") message: string,
-		@Query("token") token: string,
+		@CurrentUser() user: User,
 	) {
-		return await this.postService.createPost(message, token);
+		return await this.postService.createPost(message, user.id);
 	}
 
 	@Get()
 	async getList(
-		@Query("token") token: string,
 		@Query("start") start: number = 0,
 		@Query("records") records: number,
 	) {
-		return await this.postService.getList(token, start, records);
+		return await this.postService.getList(start, records);
 	}
 
 	@Get(":id")
 	async getListByUser(
 		@Param("id") id: number,
-		@Query("token") token: string,
 		@Query("start") start: number = 0,
 		@Query("records") records: number,
 	) {
-		return await this.postService.getListByUser(token, id, start, records);
+		return await this.postService.getListByUser(id, start, records);
 	}
 }

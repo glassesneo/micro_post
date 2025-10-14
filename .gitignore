@@ -1,3 +1,4 @@
 /.nix-data
 /node_modules
 .turbo
+.claude/

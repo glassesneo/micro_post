@@ -18,8 +18,11 @@ export const ProfileLayout = () => {
 	// biome-ignore lint: TODO
 	useEffect(() => {
 		const myGetUser = async () => {
-			const user = await getUser(userInfo.id, userInfo.token);
-			const postList = await getPostListByUser(userInfo.token, userInfo.id);
+			const user = await getUser(userInfo.id, userInfo.accessToken);
+			const postList = await getPostListByUser(
+				userInfo.accessToken,
+				userInfo.id,
+			);
 			setProfile({ name: user.name, postList: postList });
 		};
 

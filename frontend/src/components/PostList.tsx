@@ -10,7 +10,7 @@ export const PostList = () => {
 	const { userInfo } = use(UserContext);
 
 	if (!postList.length) {
-		throw getPostList(userInfo.token).then((data) => {
+		throw getPostList(userInfo.accessToken).then((data) => {
 			setPostList(data);
 		});
 	}

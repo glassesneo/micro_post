@@ -2,12 +2,12 @@ import { createContext, type Dispatch, type SetStateAction } from "react";
 
 export type UserInfo = {
 	id: number;
-	token: string;
+	accessToken: string;
 };
 
 export const NotLoginState: UserInfo = {
 	id: 0,
-	token: "",
+	accessToken: "",
 };
 
 export const UserContext = createContext(

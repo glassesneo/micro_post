@@ -1,13 +1,8 @@
-import { createHash } from "node:crypto";
 import { UserResponseDto } from "@micro_post/shared";
-import {
-	ForbiddenException,
-	Injectable,
-	NotFoundException,
-} from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Equal, MoreThan, Repository } from "typeorm";
-import { Auth } from "../entities/auth";
+import * as bcrypt from "bcrypt";
+import { Equal, Repository } from "typeorm";
 import { User } from "../entities/user.entity";
 
 const toUserResponseDto = (user: User): UserResponseDto => {
@@ -27,34 +22,20 @@ export class UserService {
 	constructor(
 		@InjectRepository(User)
 		private userRepository: Repository<User>,
-		@InjectRepository(Auth)
-		private authRepository: Repository<Auth>,
 	) {}
 
-	createUser(name: string, email: string, password: string) {
-		const hash = createHash("md5").update(password).digest("hex");
+	async createUser(name: string, email: string, password: string) {
+		const hashedPassword = await bcrypt.hash(password, 10);
 		const record = {
 			name: name,
 			email: email,
-			hash: hash,
+			password_hash: hashedPassword,
 		};
 
-		this.userRepository.save(record);
+		await this.userRepository.save(record);
 	}
 
-	async getUser(token: string, id: number) {
-		const now = new Date();
-		const auth = await this.authRepository.findOne({
-			where: {
-				token: Equal(token),
-				expire_at: MoreThan(now),
-			},
-		});
-
-		if (!auth) {
-			throw new ForbiddenException();
-		}
-
+	async getUser(id: number) {
 		const user = await this.userRepository.findOne({
 			where: {
 				id: Equal(id),
