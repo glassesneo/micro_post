@@ -1,8 +1,12 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
+import * as bcrypt from "bcrypt";
 import { Repository } from "typeorm";
 import { User } from "../entities/user.entity";
 import { UserService } from "./user.service";
+
+jest.mock("bcrypt");
+const mockedBcrypt = bcrypt as jest.Mocked<typeof bcrypt>;
 
 describe("UserService", () => {
 	let service: UserService;
@@ -27,17 +31,24 @@ describe("UserService", () => {
 	});
 
 	it("should create a user", async () => {
+		(mockedBcrypt.hash as jest.Mock).mockResolvedValue("hashed_password");
+
 		userRepo.save.mockResolvedValue({
 			id: 1,
 			name: "alice",
-			password_hash: "hash",
+			password_hash: "hashed_password",
 			email: "a@example.com",
 			posts: [],
 			created_at: new Date(),
 			updated_at: new Date(),
 		});
-		service.createUser("alice", "a@example.com", "secret");
-		expect(userRepo.save).toHaveBeenCalledTimes(1);
+		await service.createUser("alice", "a@example.com", "secret");
+		expect(mockedBcrypt.hash).toHaveBeenCalledWith("secret", 10);
+		expect(userRepo.save).toHaveBeenCalledWith({
+			name: "alice",
+			email: "a@example.com",
+			password_hash: "hashed_password",
+		});
 	});
 
 	it("should get a user", async () => {

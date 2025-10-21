@@ -7,9 +7,9 @@ import {
 	Query,
 	UseGuards,
 } from "@nestjs/common";
-import { CurrentUser } from "src/auth/decorators/current-user.decorator";
-import { JwtAuthGuard } from "src/auth/guards/jwt-auth.guard";
-import { User } from "src/entities/user.entity";
+import { CurrentUser } from "../auth/decorators/current-user.decorator";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
+import { User } from "../entities/user.entity";
 import { PostService } from "./post.service";
 
 @Controller("post")

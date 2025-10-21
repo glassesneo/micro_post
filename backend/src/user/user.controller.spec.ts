@@ -24,7 +24,7 @@ describe("UserController", () => {
 
 	it("should be defined", async () => {
 		const controller = new UserController(service);
-		await controller.getUser(1, "xxx-xxx-xxx-xxx");
+		await controller.getUser(1);
 		expect(service.getUser).toHaveBeenCalledTimes(1);
 	});
 });
