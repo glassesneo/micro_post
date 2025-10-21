@@ -1,22 +1,24 @@
 import { use, useId, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signIn } from "../api/Auth";
+import { signUp } from "../api/Auth";
 import { UserContext } from "../contexts/UserContext";
 import { sign_in_styles } from "./styles.css";
 
-export const SignIn = () => {
+export const SignUp = () => {
 	const userIdInputId = useId();
+	const emailInputId = useId();
 	const passwordInputId = useId();
 
 	const [userId, setUserId] = useState("");
 	const [password, setPassword] = useState("");
+	const [email, setEmail] = useState("");
 
 	const { setUserInfo } = use(UserContext);
 
 	const navigate = useNavigate();
 
-	const onSignInClick = async () => {
-		const result = await signIn({ name: userId, password });
+	const onSignUpClick = async () => {
+		const result = await signUp({ name: userId, email, password });
 		if (result?.access_token) {
 			setUserInfo({
 				id: result.user_id,
@@ -41,6 +43,19 @@ export const SignIn = () => {
 			</div>
 
 			<div className={sign_in_styles.row}>
+				<label htmlFor={emailInputId} className={sign_in_styles.label}>
+					email
+				</label>
+				<input
+					id={emailInputId}
+					className={sign_in_styles.input}
+					type="text"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
+				/>
+			</div>
+
+			<div className={sign_in_styles.row}>
 				<label htmlFor={passwordInputId} className={sign_in_styles.label}>
 					Password
 				</label>
@@ -57,9 +72,9 @@ export const SignIn = () => {
 				<button
 					type="button"
 					className={sign_in_styles.button}
-					onClick={onSignInClick}
+					onClick={onSignUpClick}
 				>
-					Login
+					Signup
 				</button>
 			</div>
 		</div>

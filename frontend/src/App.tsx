@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { SignIn } from "./components/SignIn";
+import { SignUp } from "./components/SignUp";
 import {
 	NotLoginState,
 	UserContext,
@@ -17,6 +18,7 @@ function App() {
 			<UserContext value={{ userInfo, setUserInfo }}>
 				<Routes>
 					<Route path="/" element={<SignIn />} />
+					<Route path="/signup" element={<SignUp />} />
 					<Route path="/main" element={<Main />} />
 					<Route path="/profile/:slug" Component={Profile} />
 				</Routes>

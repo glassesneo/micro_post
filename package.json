@@ -17,5 +17,9 @@
     "turbo": "^2.5.6",
     "typescript": "5.8.3"
   },
-  "packageManager": "pnpm@10.15.0"
+  "packageManager": "pnpm@10.15.0",
+  "dependencies": {
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2"
+  }
 }

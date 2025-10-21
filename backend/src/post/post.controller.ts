@@ -1,3 +1,4 @@
+import { CreatePostDto } from "@micro_post/shared";
 import {
 	Body,
 	Controller,
@@ -18,10 +19,10 @@ export class PostController {
 	@UseGuards(JwtAuthGuard)
 	@Post()
 	async createPost(
-		@Body("message") message: string,
+		@Body() createPostDto: CreatePostDto,
 		@CurrentUser() user: User,
 	) {
-		return await this.postService.createPost(message, user.id);
+		return await this.postService.createPost(createPostDto.message, user.id);
 	}
 
 	@Get()
