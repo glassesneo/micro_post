@@ -45,6 +45,7 @@ export const SideBar = () => {
 					type="submit"
 					className={form_styles.button}
 					onClick={onSendClick}
+					disabled={message.trim() === ""}
 				>
 					Send
 				</button>
