@@ -29,7 +29,12 @@ export const getPostListByUser = async (token: string, id: number) => {
 	const posts = await getListByUser(token, id);
 	if (posts) {
 		return posts.map((p): PostType => {
-			return { ...p, created_at: new Date(p.created_at) };
+			return {
+				...p,
+				created_at: new Date(p.created_at),
+				updated_at:
+					p.updated_at !== undefined ? new Date(p.updated_at) : undefined,
+			};
 		});
 	} else {
 		return [];
