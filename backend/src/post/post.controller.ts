@@ -1,4 +1,4 @@
-import { CreatePostDto, DeletePostDto, EditPostDto } from "@micro_post/shared";
+import { CreatePostDto } from "@micro_post/shared";
 import {
 	Body,
 	Controller,
@@ -6,6 +6,7 @@ import {
 	Get,
 	Param,
 	Post,
+	Put,
 	Query,
 	UseGuards,
 } from "@nestjs/common";
@@ -26,10 +27,15 @@ export class PostController {
 		return await this.postService.createPost(createPostDto, user.id);
 	}
 
-	// @Post()
-	// async editPost(@Body() editPostDto: EditPostDto, @CurrentUser() user: User) {
-	// return await this.postService.editPost(editPostDto, user.id);
-	// }
+	@UseGuards(JwtAuthGuard)
+	@Put(":id")
+	async editPost(
+		@Param("id") id: number,
+		@Body("message") message: string,
+		@CurrentUser() user: User,
+	) {
+		return await this.postService.editPost({ post_id: id, message }, user.id);
+	}
 
 	@UseGuards(JwtAuthGuard)
 	@Delete(":id")

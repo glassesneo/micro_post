@@ -1,4 +1,8 @@
-import type { PostResponseDto, PostType } from "@micro_post/shared";
+import type {
+	EditPostDto,
+	PostResponseDto,
+	PostType,
+} from "@micro_post/shared";
 import axios from "axios";
 
 const apiUrl: string = import.meta.env.VITE_MICROPOST_API_URL;
@@ -13,6 +17,20 @@ export const post = async (token: string, msg: string) => {
 			Authorization: `Bearer ${token}`,
 		},
 	});
+	console.log(response);
+};
+
+export const editPost = async (token: string, editPostDto: EditPostDto) => {
+	const url = `${apiUrl}/post/${editPostDto.post_id}`;
+	const response = await axios.put(
+		url,
+		{ message: editPostDto.message },
+		{
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		},
+	);
 	console.log(response);
 };
 
@@ -36,7 +54,12 @@ export const getPostList = async (token: string) => {
 	const posts: PostResponseDto[] = await getList(token);
 	if (posts) {
 		const currentPostList = posts.map((p): PostType => {
-			return { ...p, created_at: new Date(p.created_at) };
+			return {
+				...p,
+				created_at: new Date(p.created_at),
+				updated_at:
+					p.updated_at !== undefined ? new Date(p.updated_at) : undefined,
+			};
 		});
 
 		return currentPostList;

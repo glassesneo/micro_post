@@ -25,7 +25,18 @@ export class PostService {
 		await this.microPostsRepository.save(record);
 	}
 
-	async editPost(editPostDto: EditPostDto, user_id: number) {}
+	async editPost(editPostDto: EditPostDto, user_id: number) {
+		const result = await this.microPostsRepository
+			.createQueryBuilder("micro_post")
+			.update()
+			.set({ content: editPostDto.message })
+			.where({ user_id: user_id, id: editPostDto.post_id })
+			.execute();
+
+		if (result.affected === 0) {
+			throw new NotFoundException("Post not found");
+		}
+	}
 
 	async deletePost(deletePostDto: DeletePostDto, user_id: number) {
 		const result = await this.microPostsRepository
@@ -49,6 +60,7 @@ export class PostService {
 				"user.name as user_name",
 				"micro_post.content as content",
 				"micro_post.created_at as created_at",
+				"micro_post.updated_at as updated_at",
 			])
 			.orderBy("micro_post.created_at", "DESC")
 			.offset(start)
@@ -72,6 +84,7 @@ export class PostService {
 				"user.name as user_name",
 				"micro_post.content as content",
 				"micro_post.created_at as created_at",
+				"micro_post.updated_at as updated_at",
 			])
 			.where("micro_post.user_id = :id", { id })
 			.orderBy("micro_post.created_at", "DESC")

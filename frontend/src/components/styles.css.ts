@@ -138,6 +138,7 @@ export const post_styles = {
 		color: "#666",
 		fontSize: 12,
 		marginBottom: 8,
+		alignItems: "center",
 	}),
 	user: style({
 		fontWeight: 600,
@@ -145,6 +146,20 @@ export const post_styles = {
 	}),
 	content: style({
 		lineHeight: 1.6,
+	}),
+	editButton: style({
+		background: "none",
+		border: "none",
+		color: "#0066cc",
+		cursor: "pointer",
+		fontSize: 14,
+		padding: 4,
+		borderRadius: 4,
+		transition: "background 0.2s, color 0.2s",
+		":hover": {
+			background: "#e6f2ff",
+			color: "#0052a3",
+		},
 	}),
 	deleteButton: style({
 		background: "none",
@@ -157,7 +172,86 @@ export const post_styles = {
 		transition: "background 0.2s, color 0.2s",
 		":hover": {
 			background: "#fbeaea",
-			color: "#a00", // Darker red on hover
+			color: "#a00",
+		},
+	}),
+	editedLabel: style({
+		fontSize: 11,
+		color: "#999",
+		fontStyle: "italic",
+	}),
+};
+
+export const dialog_styles = {
+	dialog: style({
+		border: "none",
+		borderRadius: 8,
+		padding: 0,
+		maxWidth: 500,
+		width: "90%",
+		boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
+		selectors: {
+			"&::backdrop": {
+				backgroundColor: "rgba(0, 0, 0, 0.5)",
+			},
+		},
+	}),
+	content: style({
+		padding: 20,
+		display: "flex",
+		flexDirection: "column",
+		gap: 16,
+	}),
+	textarea: style({
+		width: "100%",
+		minHeight: 100,
+		padding: 8,
+		border: "1px solid #ccc",
+		borderRadius: 4,
+		resize: "vertical",
+		fontFamily: "inherit",
+		fontSize: 14,
+		lineHeight: 1.5,
+		boxSizing: "border-box",
+	}),
+	footer: style({
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "center",
+	}),
+	charCounter: style({
+		fontSize: 12,
+		color: "#666",
+	}),
+	actions: style({
+		display: "flex",
+		gap: 8,
+	}),
+	cancelButton: style({
+		padding: "6px 16px",
+		border: "1px solid #ccc",
+		borderRadius: 4,
+		backgroundColor: "#fff",
+		cursor: "pointer",
+		fontSize: 14,
+		":hover": {
+			backgroundColor: "#f5f5f5",
+		},
+	}),
+	saveButton: style({
+		padding: "6px 16px",
+		border: "none",
+		borderRadius: 4,
+		backgroundColor: "#0066cc",
+		color: "#fff",
+		cursor: "pointer",
+		fontSize: 14,
+		":hover": {
+			backgroundColor: "#0052a3",
+		},
+		":disabled": {
+			backgroundColor: "#ccc",
+			cursor: "not-allowed",
 		},
 	}),
 };
