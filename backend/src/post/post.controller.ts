@@ -1,7 +1,8 @@
-import { CreatePostDto } from "@micro_post/shared";
+import { CreatePostDto, DeletePostDto, EditPostDto } from "@micro_post/shared";
 import {
 	Body,
 	Controller,
+	Delete,
 	Get,
 	Param,
 	Post,
@@ -22,7 +23,19 @@ export class PostController {
 		@Body() createPostDto: CreatePostDto,
 		@CurrentUser() user: User,
 	) {
-		return await this.postService.createPost(createPostDto.message, user.id);
+		return await this.postService.createPost(createPostDto, user.id);
+	}
+
+	// @Post()
+	// async editPost(@Body() editPostDto: EditPostDto, @CurrentUser() user: User) {
+	// return await this.postService.editPost(editPostDto, user.id);
+	// }
+
+	@UseGuards(JwtAuthGuard)
+	@Delete(":id")
+	async deletePost(@Param("id") id: number, @CurrentUser() user: User) {
+		console.log(`id: ${id}`);
+		return await this.postService.deletePost({ post_id: id }, user.id);
 	}
 
 	@Get()

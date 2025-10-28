@@ -1,5 +1,10 @@
-import { PostType } from "@micro_post/shared";
-import { Injectable } from "@nestjs/common";
+import {
+	CreatePostDto,
+	DeletePostDto,
+	EditPostDto,
+	PostType,
+} from "@micro_post/shared";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { MicroPost } from "../entities/microposts";
@@ -11,13 +16,28 @@ export class PostService {
 		private microPostsRepository: Repository<MicroPost>,
 	) {}
 
-	async createPost(message: string, user_id: number) {
+	async createPost(createPostDto: CreatePostDto, user_id: number) {
 		const record = {
 			user_id: user_id,
-			content: message,
+			content: createPostDto.message,
 		};
 
 		await this.microPostsRepository.save(record);
+	}
+
+	async editPost(editPostDto: EditPostDto, user_id: number) {}
+
+	async deletePost(deletePostDto: DeletePostDto, user_id: number) {
+		const result = await this.microPostsRepository
+			.createQueryBuilder("micro_post")
+			.delete()
+			.from(MicroPost)
+			.where({ user_id: user_id, id: deletePostDto.post_id })
+			.execute();
+
+		if (result.affected === 0) {
+			throw new NotFoundException("Post not found");
+		}
 	}
 
 	async getList(start: number = 0, number_of_records: number) {

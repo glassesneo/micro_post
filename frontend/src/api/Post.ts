@@ -16,6 +16,16 @@ export const post = async (token: string, msg: string) => {
 	console.log(response);
 };
 
+export const deletePost = async (token: string, post_id: number) => {
+	const url = `${apiUrl}/post/${post_id}`;
+	const response = await axios.delete(url, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+	console.log(response);
+};
+
 const getList = async (token: string) => {
 	const url = `${apiUrl}/post?token=${token}&records=10`;
 	const response = await axios.get(url);

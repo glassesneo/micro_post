@@ -146,4 +146,18 @@ export const post_styles = {
 	content: style({
 		lineHeight: 1.6,
 	}),
+	deleteButton: style({
+		background: "none",
+		border: "none",
+		color: "#c00",
+		cursor: "pointer",
+		fontSize: 14,
+		padding: 4,
+		borderRadius: 4,
+		transition: "background 0.2s, color 0.2s",
+		":hover": {
+			background: "#fbeaea",
+			color: "#a00", // Darker red on hover
+		},
+	}),
 };

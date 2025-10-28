@@ -7,6 +7,20 @@ export class CreatePostDto {
 	@MaxLength(280, { message: "Post content too long (max 280 characters)" })
 	message: string;
 }
+
+export class EditPostDto {
+	post_id: number;
+	@Transform(({ value }) => value?.trim())
+	@IsString({ message: "Post content must be a string" })
+	@IsNotEmpty({ message: "Post content is required" })
+	@MaxLength(280, { message: "Post content too long (max 280 characters)" })
+	message: string;
+}
+
+export class DeletePostDto {
+	post_id: number;
+}
+
 export type PostResponseDto = {
 	id: number;
 	content: string;
