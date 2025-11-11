@@ -58,20 +58,24 @@ export const Post = ({ post }: { post: PostType }) => {
 				<span className={post_styles.user}>{post.user_name}</span>
 				<span>{getDateStr(post.created_at)}</span>
 				{isEdited && <span className={post_styles.editedLabel}>(edited)</span>}
-				<button
-					className={post_styles.editButton}
-					type="button"
-					onClick={onEditClick}
-				>
-					Edit
-				</button>
-				<button
-					className={post_styles.deleteButton}
-					type="button"
-					onClick={onDeleteClick}
-				>
-					Delete
-				</button>
+				{post.user_id === userInfo.id && (
+					<>
+						<button
+							className={post_styles.editButton}
+							type="button"
+							onClick={onEditClick}
+						>
+							Edit
+						</button>
+						<button
+							className={post_styles.deleteButton}
+							type="button"
+							onClick={onDeleteClick}
+						>
+							Delete
+						</button>
+					</>
+				)}
 			</div>
 			<div className={post_styles.content}>{getLines(post.content)}</div>
 

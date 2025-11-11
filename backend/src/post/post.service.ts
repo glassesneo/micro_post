@@ -58,6 +58,7 @@ export class PostService {
 			.select([
 				"micro_post.id as id",
 				"user.name as user_name",
+				"micro_post.user_id as user_id",
 				"micro_post.content as content",
 				"micro_post.created_at as created_at",
 				"micro_post.updated_at as updated_at",
@@ -82,6 +83,7 @@ export class PostService {
 			.select([
 				"micro_post.id as id",
 				"user.name as user_name",
+				"micro_post.user_id as user_id",
 				"micro_post.content as content",
 				"micro_post.created_at as created_at",
 				"micro_post.updated_at as updated_at",
